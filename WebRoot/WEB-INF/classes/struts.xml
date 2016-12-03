@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- 指定全局国际化资源文件 -->
+	<constant name="struts.custom.i18n.resources" value="mess" />
+	<constant name="struts.multipart.maxSize" value="5242880"/> 
+    <constant name="struts.enable.DynamicMethodInvocation" value="true" />
+    <constant name="struts.devMode" value="false" />
+
+    <package name="default" namespace="/" extends="struts-default">
+
+        <default-action-ref name="index" />
+
+        <global-results>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </global-results>
+
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="error"/>
+        </global-exception-mappings>
+
+        <action name="index">
+            <result type="redirectAction">
+                <param name="actionName">HelloWorld</param>
+                <param name="namespace">/example</param>
+            </result>
+        </action>
+    </package>
+    
+    <!-- Admin -->
+    <package name="admin" namespace="/admin" extends="struts-default">
+    	<action name="login" class="com.tang.action.AdminAction" method="login">
+    		<result name="success" type="redirect">../book/show</result>
+    		<result name="error">error.jsp</result>
+    	</action>
+    </package>
+	
+	<!-- book -->
+	<package name="book" namespace="/book" extends="struts-default">
+		<action name="show" class="com.tang.action.BookAction" method="show">
+			<result name="success">../main.jsp</result>
+		</action>
+		<action name="delete" class="com.tang.action.BookAction" method="delete">
+			<result name="success" type="redirect">../book/show</result>
+		</action>
+		<action name="preModify" class="com.tang.action.BookAction" method="preModify">
+			<result name="success">../modify.jsp</result>
+		</action>
+		<action name="modify" class="com.tang.action.BookAction" method="modify">
+			<result name="success" type="redirect">../book/show</result>
+		</action>
+		<action name="preAdd" class="com.tang.action.BookAction" method="preAdd">
+			<result name="success">../add.jsp</result>
+		</action>
+		<action name="add" class="com.tang.action.BookAction" method="add">
+			<result name="success" type="redirect">../book/show</result>
+		</action>
+	</package>
+		
+	
+    <include file="example.xml"/>
+
+    <!-- Add packages here -->
+
+</struts>
